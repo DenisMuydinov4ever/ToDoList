@@ -284,6 +284,12 @@ svg {
         font-size: 0.9rem;
         width: 85%;
     }
+
+    footer {
+        position: absolute;
+        bottom: 0;
+        z-index: 2;
+    }
 }
 
 /* ========== ANIMATIONS ========== */
