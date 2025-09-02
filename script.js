@@ -39,33 +39,50 @@ function renderTasks() {
     });
 
     checkBoxes();
+    initSortable();
+}
+
+var sortableInstance;
+
+function initSortable() {
+  const ol = document.getElementById("sortable-list");
+  if (!ol) return;
+
+  if (sortableInstance) sortableInstance.destroy();
+
+  sortableInstance = new Sortable(ol, {
+    animation: 150,
+    ghostClass: "dragging",
+    onEnd() {
+      const ids = [...ol.querySelectorAll("li.task")].map(li => Number(li.id));
+      const byId = new Map(tasks.map(t => [t.id, t]));
+      tasks = ids.map(id => byId.get(id)).filter(Boolean);
+      saveTask(tasks);
+    }
+  });
 }
 
 function addTask(id, title, description, checked, createdAt, completedAt) {
     const ol = document.querySelector("ol");
 
-    // <li>
+    
     const li = document.createElement("li");
     li.classList.add("task");
     li.setAttribute("draggable","true");
     li.id = id;
     if (checked) li.classList.add("checked");
 
-    // <details>
     const details = document.createElement("details");
 
-    // <summary>
+
     const summary = document.createElement("summary");
 
-    // Task title
+    
     const span = document.createElement("span");
     span.textContent = title;
-
-    // Controls (checkbox + delete button)
     const controlsDiv = document.createElement("div");
     controlsDiv.classList.add("task-controls");
 
-    // Checkbox
     const label = document.createElement("label");
     label.classList.add("checkbox");
 
@@ -95,12 +112,10 @@ function addTask(id, title, description, checked, createdAt, completedAt) {
     controlsDiv.appendChild(label);
     controlsDiv.appendChild(deleteBtn);
 
-    // Description
     const pDesc = document.createElement("p");
     pDesc.classList.add("task-desc");
     pDesc.textContent = description;
 
-    // Dates
     const pCreated = document.createElement("p");
     pCreated.classList.add("createdAt");
     pCreated.textContent = "Created at: " + createdAt;
@@ -215,10 +230,8 @@ function checkBoxes() {
         const liHTML = checkbox.closest("li");
         const taskText = summary.querySelector("span");
 
-        // Run once on load
         checkTask(checkbox, liHTML, taskText);
 
-        // Run whenever checkbox changes
         checkbox.addEventListener("change", () => {
             checkTask(checkbox, liHTML, taskText);
         });
@@ -262,8 +275,8 @@ document.addEventListener("click", function() {
 });
 
 document.addEventListener("contextmenu", function(e) {
-    e.preventDefault(); // Stops the browser menu from appearing
-    showCustomMenu(e);  // Show your custom dialog instead
+    e.preventDefault();
+    showCustomMenu(e);
 });
 
 

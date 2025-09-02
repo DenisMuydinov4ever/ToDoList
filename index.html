@@ -39,13 +39,12 @@
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const characters = katakana + alphabet;
 
-    const fontSize = 16;
+    const fontSize = 12;
     const columns = canvas.width / fontSize; // number of columns
     const drops = [];
 
-    // initialize drops
     for (let x = 0; x < columns; x++) {
-      drops[x] = 1; // start at y=1
+      drops[x] = 1;
     }
 
     function draw() {
@@ -56,7 +55,7 @@
       ctx.fillStyle = "#0F0"; 
       ctx.font = fontSize + "px monospace";
 
-      // draw characters
+      
       for (let i = 0; i < drops.length; i++) {
         const text = characters.charAt(Math.floor(Math.random() * characters.length));
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -100,9 +99,9 @@
             <button id="submit-btn" onclick="createTask()">OK</button>
         </div>
     </div>
-    <header>
+    <!-- <header>
         <h1>TO DO LIST</h1>
-    </header>
+    </header> -->
     <main>
     <ol class="tasks" id="sortable-list">
         
@@ -124,12 +123,6 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script>
-        new Sortable(document.getElementById("sortable-list"), {
-                animation: 150,
-                ghostClass: "dragging"
-        });
-    </script>
     <script src="script.js"></script>
 </body>
 </html>
