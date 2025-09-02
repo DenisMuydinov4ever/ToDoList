@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>ToDoList</title>
+    <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+<div id="custom-menu">
+    <ul>
+        <li onclick="renderTasks()">Refresh</li>
+        <li onclick="openPopUp()">Add Task</li>
+        <li onclick="deleteAll()">Delete All</li>
+        <li onclick="deleteTasks()">Remove Selected Tasks</li>
+    </ul>
+</div>
+
+  <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    // make canvas full screen
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const katakana = "アァイィウヴエェオカガキギクグケゲコゴサザシジスズセゼソゾタダチッヂヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモヤユヨラリルレロワヲン";
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const characters = katakana + alphabet;
+
+    const fontSize = 16;
+    const columns = canvas.width / fontSize; // number of columns
+    const drops = [];
+
+    // initialize drops
+    for (let x = 0; x < columns; x++) {
+      drops[x] = 1; // start at y=1
+    }
+
+    function draw() {
+
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0"; 
+      ctx.font = fontSize + "px monospace";
+
+      // draw characters
+      for (let i = 0; i < drops.length; i++) {
+        const text = characters.charAt(Math.floor(Math.random() * characters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 50);
+
+    // resize handler
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+    <div class="blanker">
+
+        <div class="pop-up">
+            <div class="close" onclick="closePopUp()">
+                <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Close">
+                    <circle cx="16" cy="16" r="15" fill="lawngreen" opacity="0.95"/>
+                    <g stroke="white" stroke-width="2.5" stroke-linecap="round">
+                        <line x1="10" y1="10" x2="22" y2="22"/>
+                        <line x1="22" y1="10" x2="10" y2="22"/>
+                    </g>
+                </svg>
+        
+            </div>
+            <h1>Add a task</h1>
+            <label for="task">Task:</label>
+            <input type="text" id="new-task">
+            <span style="margin: 10px;"></span>
+            <label for="task-desc">Description:</label>
+            <textarea name="task-desc" id="task-desc" cols="40" rows="10" spellcheck="false"></textarea>
+            <span style="margin: 10px;"></span>
+            <button id="submit-btn" onclick="createTask()">OK</button>
+        </div>
+    </div>
+    <header>
+        <h1>TO DO LIST</h1>
+    </header>
+    <main>
+    <ol class="tasks" id="sortable-list">
+        
+    </ol>
+    </main>
+    <footer>
+        <div class="plus-svg" onclick="openPopUp()">
+            <!-- Plus -->
+             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                 <path d="M12 5v14M5 12h14" fill="none" stroke="lawngreen" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <div class="minus-svg" onclick="deleteTasks()">
+            <!-- Minus -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                <path d="M5 12h14" fill="none" stroke="lawngreen" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        new Sortable(document.getElementById("sortable-list"), {
+                animation: 150,
+                ghostClass: "dragging"
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
