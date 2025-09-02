@@ -11,6 +11,7 @@ html {
   background-color: #000;
   color: lawngreen;
   font-family: "Pixelify Sans", sans-serif;
+  position: relative;
 }
 
 body {
@@ -43,11 +44,6 @@ main {
   overflow-y: auto;
 }
 
-footer {
-  flex-shrink: 0;
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
 
 /* ========== CANVAS BACKGROUND ========== */
 canvas {
@@ -58,7 +54,7 @@ canvas {
   display: block;
 }
 
-header, main, footer, .blanker {
+main, .blanker {
   position: relative;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.74);
@@ -68,12 +64,13 @@ header {
     font-size: 1.4rem;
     text-align: center;
     padding: 0.5rem;
+    z-index: 3;
+    bottom: 0;
 }
 
 /* ========== MAIN CONTENT ========== */
 main {
     /* margin: 0; */
-    margin-top: 30px;
     padding: 0;
     display: flex;
     flex: 1;
@@ -260,8 +257,9 @@ details > p {
 }
 
 /* ========== FOOTER ========== */
-footer {
+header {
     display: flex;
+    position: fixed;
     flex-direction: row;
     justify-content: center;
     padding: 10px;
@@ -280,10 +278,6 @@ svg {
 @media (max-width: 600px) {
     body {
         overflow: auto;
-    }
-
-    header {
-        font-size: 1.2rem;
     }
 
     summary {
@@ -312,12 +306,6 @@ svg {
         width: 85%;
     }
 
-}
-
-@media (max-height: 300px) {
-  footer {
-    padding-bottom: 40px;
-  }
 }
 
 /* ========== ANIMATIONS ========== */
