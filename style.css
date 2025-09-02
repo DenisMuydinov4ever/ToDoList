@@ -25,8 +25,27 @@ body {
   cursor: url("Precision\ Select.cur"), auto;
 }
 
-html,body {
-    height: 100dvh;
+html, body {
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+footer {
+  flex-shrink: 0;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 
@@ -259,6 +278,10 @@ svg {
 
 /* ========== RESPONSIVE (PHONES) ========== */
 @media (max-width: 600px) {
+    body {
+        overflow: auto;
+    }
+
     header {
         font-size: 1.2rem;
     }
@@ -293,7 +316,7 @@ svg {
 
 @media (max-height: 300px) {
   footer {
-    padding-bottom: 40px; /* space for browser bar */
+    padding-bottom: 40px;
   }
 }
 
