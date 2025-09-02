@@ -291,12 +291,10 @@ svg {
 
 }
 
-@media (max-height: 300px){
-    footer {
-        position: absolute;
-        bottom: 0;
-        z-index: 2;
-    }
+@media (max-height: 300px) {
+  footer {
+    padding-bottom: 40px; /* space for browser bar */
+  }
 }
 
 /* ========== ANIMATIONS ========== */
